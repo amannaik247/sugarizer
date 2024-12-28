@@ -307,38 +307,38 @@ define([
 		// Initiating font-size-palette
 		// For increase
 		var sizes = ['16px', '24px', '32px' ,'40px', '48px' , '56px', '64px' , '72px' , '80px' , '100px'];
-		var sizeIncButton = document.getElementById("resize-inc");
-		sizeIncButton.addEventListener("click",function(){
-			var currentSize = editor.getFormat();
-			if(currentSize.size==null){
-				var index = sizes.indexOf('24px');
-				editor.format('size',sizes[index+1]);
-			}
-			else {
-				var index = sizes.indexOf(currentSize.size);
-				index++;
-				if(index<sizes.length){
-					editor.format('size',sizes[index]);
-				}
-			}
-		});
-		// For decrease
-		var sizeDecButton = document.getElementById("resize-dec");
-		sizeDecButton.addEventListener("click",function(){
-			var currentSize = editor.getFormat();
-			if(currentSize.size==null){
-				var index = sizes.indexOf('24px');
-				if(index>0)
-				editor.format('size',sizes[index-1]);
-			}
-			else {
-				var index = sizes.indexOf(currentSize.size);
-				index--;
-				if(index>=0){
-					editor.format('size',sizes[index]);
-				}
-			}
-		});
+		// var sizeIncButton = document.getElementById("resize-inc");
+		// sizeIncButton.addEventListener("click",function(){
+		// 	var currentSize = editor.getFormat();
+		// 	if(currentSize.size==null){
+		// 		var index = sizes.indexOf('24px');
+		// 		editor.format('size',sizes[index+1]);
+		// 	}
+		// 	else {
+		// 		var index = sizes.indexOf(currentSize.size);
+		// 		index++;
+		// 		if(index<sizes.length){
+		// 			editor.format('size',sizes[index]);
+		// 		}
+		// 	}
+		// });
+		// // For decrease
+		// var sizeDecButton = document.getElementById("resize-dec");
+		// sizeDecButton.addEventListener("click",function(){
+		// 	var currentSize = editor.getFormat();
+		// 	if(currentSize.size==null){
+		// 		var index = sizes.indexOf('24px');
+		// 		if(index>0)
+		// 		editor.format('size',sizes[index-1]);
+		// 	}
+		// 	else {
+		// 		var index = sizes.indexOf(currentSize.size);
+		// 		index--;
+		// 		if(index>=0){
+		// 			editor.format('size',sizes[index]);
+		// 		}
+		// 	}
+		// });
 
 		// Insert Image handling
 		document.getElementById("insert-picture").addEventListener("click",function(e){
@@ -668,6 +668,35 @@ define([
 				displayConnectedPeople();
 			});
 		}
+		var currentSize
+		// Create a dropdown for font size selection
+		var fontSizeDropdown = document.createElement("select");
+		fontSizeDropdown.id = "font-size-dropdown";
+		sizes.forEach(function(size) {
+			var option = document.createElement("option");
+			option.value = size;
+			option.textContent = size;
+			fontSizeDropdown.appendChild(option);
+		});
+
+		// Create a label for the font size dropdown
+		var fontSizeLabel = document.createElement("label");
+		fontSizeLabel.textContent = "Font Size: ";
+		fontSizeLabel.setAttribute("for", "font-size-dropdown");
+
+		// Append the label and dropdown to the main toolbar
+		document.getElementById("main-toolbar").appendChild(fontSizeLabel);
+		document.getElementById("main-toolbar").appendChild(fontSizeDropdown);
+
+		// Event listener for font size dropdown
+		fontSizeDropdown.addEventListener("change", function() {
+			var selectedSize = this.value;
+			editor.format('size', selectedSize);
+		});
+
+		// Remove the existing increase and decrease size buttons from the UI
+		document.getElementById("resize-inc").style.display = "none"; // Hide increase size button
+		document.getElementById("resize-dec").style.display = "none"; // Hide decrease size button
 
 	});
 
